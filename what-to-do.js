@@ -85,13 +85,21 @@ const Greeting = function (props) {
 class Alert extends MyReact.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.changeTitle = this.changeTitle.bind(this);
+    this.state = {
+      title:"You are in Alert class"
+    };
+  }
+  changeTitle(){
+    this.setState({title:new Date().toString()})
   }
   render() {
     return (
       <div className="alert-container">
-        <h2>You are in Alert class</h2>
+        <h2>{this.state.title}</h2>
         <div>{this.props.message}</div>
+        {/* error => check screenshot why this2.setState 111*/}
+        <Button onClick={this.changeTitle}>I <Heart /> Coding</Button>
       </div>
     );
   }

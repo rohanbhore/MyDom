@@ -142,6 +142,11 @@ const MyReact = (function () {
             container.appendChild(newDomElement);
         }
 
+        let component = vdom.component;
+        if (component) {
+            component.setDomElement(newDomElement);
+        }
+
         vdom.children.forEach(child => {
             mountElement(child, newDomElement);
         });
@@ -188,7 +193,28 @@ const MyReact = (function () {
     class Component {
         constructor(props) {
             this.props = props;
+            this.state = {};
+            this.prevState = {};
         }
+        setState(nextState) {
+            if (!this.prevState) this.prevState = this.state;
+            this.state = Object.assign({}, this.state, nextState)
+       
+            let dom =this.getDomElement();
+            let container =dom.parentNode;
+
+            let newvdom = this.render();
+
+            diff(newvdom,container,dom)
+        }
+        setDomElement(dom){
+            this._dom = dom;
+        }
+
+        getDomElement(){
+            return this._dom;
+        }
+
     }
 
     return {
