@@ -186,10 +186,11 @@ const MyReact = (function () {
     }
 
     class Component {
-        constructor(props){
-            this.props =props;
+        constructor(props) {
+            this.props = props;
         }
     }
+
     return {
         createElement,
         render,

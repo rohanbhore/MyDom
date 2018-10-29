@@ -90,7 +90,7 @@ class Alert extends MyReact.Component {
   render() {
     return (
       <div className="alert-container">
-        <h2>You are in Alert</h2>
+        <h2>You are in Alert class</h2>
         <div>{this.props.message}</div>
       </div>
     );
