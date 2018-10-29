@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "react-dom",
+  "version": "",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.5"
+  }
+}
