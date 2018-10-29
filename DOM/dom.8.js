@@ -28,13 +28,12 @@ const MyReact = (function () {
 
     const diff = function (vdom, container, oldDom) {
         let oldvdom = oldDom && oldDom._virtualElement;
-        let oldComponent = oldvdom && oldvdom.component;
 
         if (!oldDom) {
             mountElement(vdom, container, oldDom);
         }
         else if (typeof vdom.type === "function") {
-            diffComponent(vdom, oldComponent, container, oldDom);
+            diffComponent(vdom, null, container, oldDom);
         }
         else if (oldvdom && oldvdom.type === vdom.type) {
             if (oldvdom.type === "text") {
@@ -58,36 +57,9 @@ const MyReact = (function () {
     }
 
     function diffComponent(newVirtualElement, oldComponent, container, domElement) {
-        if (isSameComponentType(oldComponent, newVirtualElement)) {
-            updateComponent(newVirtualElement, oldComponent, container, domElement);
-        }
-        else {
+        if (!oldComponent) {
             mountElement(newVirtualElement, container, domElement);
         }
-    }
-
-    function updateComponent(newVirtualElement, oldComponent, container, domElement) {
-        oldComponent.componentWillReceiveProps(newVirtualElement.props);
-        if (oldComponent.shouldComponentUpdate(newVirtualElement)) {
-            const preveProps = oldComponent.props;
-        }
-        oldComponent.componentDidUpdate(
-            newVirtualElement.props,
-            oldComponent.state
-        );
-
-        oldComponent.updateProps(newVirtualElement.props);
-
-        const nextElement = oldComponent.render();
-        nextElement.component =oldComponent;
-
-        diff(nextElement,container,domElement,oldComponent);
-            oldComponent.componentDidUpdate(preveProps);
-
-    }
-
-    function isSameComponentType(oldComponent, newVirtualElement) {
-        return oldComponent && newVirtualElement.type === oldComponent.constructor;
     }
 
     const mountElement = function (vdom, container, oldDom) {
@@ -135,7 +107,7 @@ const MyReact = (function () {
 
     }
 
-
+   
 
     function unmountNode(domElement, parentComponent) {
         domElement.remove();
@@ -227,45 +199,22 @@ const MyReact = (function () {
         setState(nextState) {
             if (!this.prevState) this.prevState = this.state;
             this.state = Object.assign({}, this.state, nextState)
-
-            let dom = this.getDomElement();
-            let container = dom.parentNode;
+       
+            let dom =this.getDomElement();
+            let container =dom.parentNode;
 
             let newvdom = this.render();
 
-            diff(newvdom, container, dom)
+            diff(newvdom,container,dom)
         }
-        setDomElement(dom) {
+        setDomElement(dom){
             this._dom = dom;
         }
 
-        getDomElement() {
+        getDomElement(){
             return this._dom;
         }
 
-        updateProps(props) {
-            this.props = props;
-        }
-        componentWillMount() {
-
-        }
-        componentDidMount() {
-
-        }
-        componentWillReceiveProps(nextProps) {
-
-        }
-        shouldComponentUpdate(nextProps, nextState) {
-            return nextProps != this.props || nextState != this.state;
-        }
-        componentWillUpdate(nextProps, nextState) {
-        }
-        componentDidUpdate(nextProps, nextState) {
-
-        }
-        componentWillUnmount() {
-
-        }
     }
 
     return {

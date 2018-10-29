@@ -106,3 +106,23 @@ class Alert extends MyReact.Component {
 }
 
 MyReact.render(<Alert message="Are you sure?" />, root);
+
+class Stateful extends MyReact.Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
+  render() {
+    return (
+      <div>
+        <h2>{this.props.title.toString()}</h2>
+        <button onClick={update}>Update</button>
+      </div>
+    );
+  }
+}
+MyReact.render(<Stateful title="Task 1" />, root);
+
+function update(){
+  MyReact.render(<Stateful title={new Date()}/>, root);
+}
